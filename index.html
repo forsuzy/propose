@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A question for Suzy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="aurora"><i></i><i></i><i></i></div>
+<div id="moon"></div>
+<div id="stars"></div>
+<div class="hills"></div>
+<div id="floaters"></div>
+<canvas id="fx"></canvas>
+
+<!-- start screen (needed so the music is allowed to play) -->
+<div id="start" class="scene on">
+  <h1 id="startTitle" class="start-title"></h1>
+  <div id="ringBox"></div>
+  <p class="start-text">Tap to open 💍</p>
+</div>
+
+<!-- main stage -->
+<div id="stage" class="scene">
+  <div id="dim" class="dim"></div>
+  <div id="bigHeart" class="big-heart"></div>
+  <div id="bubble" class="bubble"><div class="bt"><span class="ghost"></span><span class="live"></span></div></div>
+
+  <div id="ask" class="ask"><div class="card">
+    <p class="eyebrow">one last question</p>
+    <h1 id="question"></h1>
+    <div class="btn-row">
+      <button id="yes" class="btn yes">YES 💖</button>
+      <span id="noSlot" class="no-slot"><button id="no" class="btn no">No</button></span>
+    </div>
+    <div id="meter" class="meter"><div class="m-top"><span>Suzy's resistance</span><b id="mval">100%</b></div><div class="m-bar"><i id="mfill"></i></div></div>
+  </div></div>
+
+  <div id="wheelWrap" class="wheelwrap">
+    <h2 id="wTitle" class="w-title"></h2>
+    <div id="wOdds" class="w-odds"></div>
+    <div id="wBox" class="w-box"><div id="pointer" class="pointer"><svg viewBox="0 0 34 44"><path d="M17 44 L2 12 Q17 -6 32 12 Z" fill="#ffd27a" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/><circle cx="17" cy="14" r="5" fill="#ff3d8b"/></svg></div><canvas id="wheel"></canvas><div id="prize" class="prize"></div></div>
+    <button id="spinBtn" class="spin-btn">SPIN 🎡</button>
+    <button id="wYes" class="w-yes">or just say YES 💖</button>
+  </div>
+
+  <div id="lie" class="lie"><div class="lie-card">
+    <p class="eyebrow">heart lie detector</p>
+    <h2 id="lTitle" class="l-title"></h2>
+    <div class="ecg-wrap"><canvas id="ecg"></canvas><div id="stamp" class="stamp">LIE<br>DETECTED</div></div>
+    <div class="l-read"><b id="lBpm">72</b><small>BPM</small><i id="lHeart">💗</i></div>
+    <p id="lStatus" class="l-status"></p>
+    <button id="lBtn" class="l-btn" aria-label="hold"><span>🫀</span></button>
+    <p id="lResult" class="l-result"></p>
+  </div><button id="lYes" class="w-yes">or just say YES 💖</button></div>
+
+  <div id="reason" class="reason"></div>
+  <div id="big" class="big"></div>
+  <p id="tapHint" class="tap-hint">tap to continue</p>
+  <div id="promises" class="promises"></div>
+  <p id="finalText" class="final-text"></p>
+  <p id="shot" class="shot"></p>
+
+  <div id="actors" class="actors">
+    <div id="man" class="actor man"></div>
+    <div id="girl" class="actor girl"></div>
+    <div id="cat" class="actor cat"></div>
+    <div id="duck" class="actor duck"></div>
+    <div id="catHeart" class="cat-heart">💗</div>
+  </div>
+  <div class="ground"></div>
+</div>
+
+<div id="heartDraw" class="heart-draw"></div>
+<div id="flash" class="flash"></div>
+<div id="toast" class="toast"></div>
+
+<button id="mute" class="icon-btn" aria-label="Sound">🔊</button>
+<button id="replay" class="icon-btn" aria-label="Replay">↻</button>
+
+<script src="sfx.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
