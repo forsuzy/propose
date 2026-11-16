@@ -702,6 +702,20 @@ let yesResolve = null;
 const NAMES = { man: MAN_NAME, suzy: NAME, cat: "Cat", duck: "Duck" };
 const ACTOR = { man: "man", suzy: "girl", cat: "cat", duck: "duck" };
 const HEART_BIG = '<svg viewBox="0 0 100 90"><defs><radialGradient id="bh" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#ff9ad0"/><stop offset="1" stop-color="#ff2d7e"/></radialGradient></defs><path d="M50 86 C6 54 8 14 30 10 C42 8 48 16 50 22 C52 16 58 8 70 10 C92 14 94 54 50 86z" fill="url(#bh)"/></svg>';
+/* put the bubble above the speaker AND above every character under it, so it never hides a face */
+function placeBubble(b, actor) {
+  const r = actor.getBoundingClientRect(), w = b.offsetWidth, cxs = r.left + r.width / 2;
+  const left = Math.min(Math.max(8, cxs - w / 2), innerWidth - w - 8);
+  let top = r.top;
+  ["man", "girl", "cat", "duck"].forEach((k) => {
+    const q = $(k).getBoundingClientRect();
+    if (q.width && q.right > left && q.left < left + w) top = Math.min(top, q.top);
+  });
+  const gap = Math.min(24, r.top - top);
+  b.style.left = left + "px"; b.style.bottom = innerHeight - top + 14 + "px";
+  b.style.setProperty("--tail", Math.min(Math.max(26, cxs - left), w - 26) + "px");
+  b.style.setProperty("--th", 12 + gap + "px");
+}
 async function say(id, line, holdMs, opts) {
   opts = opts || {};
   const who = line.who, actor = $(ACTOR[who]), b = $("bubble"), sid = opts.sid; curVoice = who;
@@ -713,10 +727,7 @@ async function say(id, line, holdMs, opts) {
   if (who === "cat") SFX.meow(); else if (who === "duck") SFX.quack();
   b.className = "bubble b-" + who; b.dataset.name = NAMES[who];
   b.querySelector(".ghost").textContent = line.text; b.querySelector(".live").textContent = "";
-  const r = actor.getBoundingClientRect(), w = b.offsetWidth, cxs = r.left + r.width / 2;
-  const left = Math.min(Math.max(8, cxs - w / 2), innerWidth - w - 8);
-  b.style.left = left + "px"; b.style.bottom = innerHeight - r.top + 12 + "px";
-  b.style.setProperty("--tail", Math.min(Math.max(26, cxs - left), w - 26) + "px");
+  placeBubble(b, actor);
   void b.offsetWidth; b.classList.add("on");
   actor.classList.add("talk");
   try {
@@ -822,8 +833,7 @@ async function run() {
     {
       const b = $("bubble"), who = "man", actor = man;
       b.className = "bubble b-man"; b.dataset.name = MAN_NAME; b.querySelector(".ghost").textContent = SUSPENSE; b.querySelector(".live").textContent = "";
-      const r = actor.getBoundingClientRect(), w = b.offsetWidth, cxs = r.left + r.width / 2, left = Math.min(Math.max(8, cxs - w / 2), innerWidth - w - 8);
-      b.style.left = left + "px"; b.style.bottom = innerHeight - r.top + 12 + "px"; b.style.setProperty("--tail", Math.min(Math.max(26, cxs - left), w - 26) + "px");
+      placeBubble(b, actor);
       void b.offsetWidth; b.classList.add("on");
       await typeInto(id, b.querySelector(".live"), SUSPENSE, 130);
       await wait(id, 1800); b.classList.remove("on");
