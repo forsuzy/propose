@@ -304,13 +304,14 @@ function celebrate() {
 }
 
 /* ---------- audio ---------- */
+const SONG_VOL = 0.25;   // music loudness (0 to 1) - lower = quieter
 const SONG_FILE = "song.mp3";   // the song (put another file here to change it)
 const song = SONG_FILE ? Object.assign(new Audio(SONG_FILE), { loop: true, preload: "auto" }) : { volume: 1, muted: false, play() {} };
-function playSong() { try { song.volume = 1; const p = song.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} $("mute").classList.add("on"); }
+function playSong() { try { song.volume = SONG_VOL; const p = song.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} $("mute").classList.add("on"); }
 let fadeT = 0;
 function fadeSong(to, ms) { clearInterval(fadeT); const from = song.volume, t0 = performance.now(); fadeT = setInterval(() => { const p = Math.min(1, (performance.now() - t0) / ms); song.volume = Math.max(0, Math.min(1, from + (to - from) * p)); if (p >= 1) clearInterval(fadeT); }, 40); }
 let duckT = 0;
-SFX.onLoud = (ms) => { if (song.muted) return; fadeSong(.45, 250); clearTimeout(duckT); duckT = setTimeout(() => fadeSong(1, 900), ms); };
+SFX.onLoud = (ms) => { if (song.muted) return; fadeSong(SONG_VOL * .45, 250); clearTimeout(duckT); duckT = setTimeout(() => fadeSong(SONG_VOL, 900), ms); };
 $("mute").addEventListener("click", () => { song.muted = !song.muted; SFX.mute(song.muted); $("mute").textContent = song.muted ? "🔇" : "🔊"; });
 
 /* ---------- helpers ---------- */
